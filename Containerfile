@@ -9,12 +9,9 @@ RUN curl -fL https://code.visualstudio.com/sha/download?build=stable\&os=linux-r
     && dnf install -y code.rpm \
     && rm -f code.rpm \
     && dnf clean all \
-    && rm -rf /var/cache/yum
+    && rm -rf /var/cache/yum \
+    && git config -f /etc/rdesktop/rdesktop.ini rdesktop.title "Personal VS Code" \
+    && git config -f /etc/rdesktop/rdesktop.ini rdesktop.exec "/usr/bin/code --no-sandbox"
 
-USER gbraad 
-
-RUN echo "exec /usr/bin/code --no-sandbox" >> ~/.config/i3/config
-
-USER root
 # ensure to become root for systemd
 #ENTRYPOINT ["/sbin/init"]
