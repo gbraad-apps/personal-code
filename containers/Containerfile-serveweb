@@ -1,0 +1,16 @@
+ARG BASE_IMAGE="ghcr.io/gbraad-apps/code"
+ARG BASE_VERSION="latest"
+
+FROM ${BASE_IMAGE}:${BASE_VERSION}
+
+ARG USER="gbraad"
+
+LABEL org.opencontainers.image.source = "https://github.com/gbraad-apps/code"
+
+RUN curl -fsSL https://raw.githubusercontent.com/gbraad-vscode/code-systemd/refs/heads/main/system/code-serveweb%40.service \
+        -o /etc/systemd/system/code-serveweb@.service \
+    && curl -fsSL https://raw.githubusercontent.com/gbraad-vscode/code-systemd/refs/heads/main/system/code-tunnel%40.service \
+        -o /etc/systemd/system/code-tunnel@.service \
+    && systemctl enable code-serveweb@${USER} \
+    && git config -f /etc/rdesktop/rdesktop.ini rdesktop.title "Personal VS Code" \
+    && git config -f /etc/rdesktop/rdesktop.ini rdesktop.exec ""
