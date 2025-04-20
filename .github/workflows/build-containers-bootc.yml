@@ -1,5 +1,5 @@
-name: build container (bootc)
-run-name: building container (bootc)
+name: build containers (bootc)
+run-name: building containers (bootc)
 on:
   schedule:
     - cron: "0 0 1 * *"
@@ -23,7 +23,7 @@ jobs:
           podman build -t ghcr.io/gbraad-apps/code-bootc:latest \
             --build-arg=BASE_IMAGE="ghcr.io/gbraad-devenv/fedora/rdesktop-bootc" \
             --build-arg=BASE_VERSION=41 \
-            -f ./containers/Containerfile .
+            -f ./containers/Containerfile-base .
       - name: Push image to ghcr.io - base
         run: |
           podman push --creds=${{ github.actor }}:${{ secrets.GITHUB_TOKEN }} \
@@ -34,7 +34,7 @@ jobs:
             --build-arg=BASE_IMAGE="ghcr.io/gbraad-apps/code-bootc" \
             --build-arg=BASE_VERSION=latest \
             --build-arg=USER="gbraad" \
-            -f ./containers/Containerfile .
+            -f ./containers/Containerfile-serveweb .
       - name: Push image to ghcr.io - serve-web
         run: |
           podman push --creds=${{ github.actor }}:${{ secrets.GITHUB_TOKEN }} \

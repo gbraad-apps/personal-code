@@ -1,5 +1,5 @@
-name: build container
-run-name: building container
+name: build containers
+run-name: building containers
 on:
   schedule:
     - cron: "0 0 1 * *"
@@ -34,7 +34,7 @@ jobs:
             --build-arg=BASE_IMAGE="ghcr.io/gbraad-apps/code" \
             --build-arg=BASE_VERSION=latest \
             --build-arg=USER="gbraad" \
-            -f ./containers/Containerfile .
+            -f ./containers/Containerfile-serveweb .
       - name: Push image to ghcr.io - serve-web
         run: |
           podman push --creds=${{ github.actor }}:${{ secrets.GITHUB_TOKEN }} \
